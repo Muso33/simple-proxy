@@ -1,0 +1,22 @@
+name: Deploy Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Wrangler
+        run: npm install -g wrangler
+      - name: Publish to Cloudflare Workers
+        run: wrangler publish
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          TURNSTILE_SECRET: ${{ secrets.TURNSTILE_SECRET }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
